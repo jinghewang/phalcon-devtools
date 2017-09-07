@@ -146,7 +146,8 @@ class Scaffold extends Component
 
 
         $this->options->offsetSet('manager', $di->getShared('modelsManager'));
-        $this->options->offsetSet('className', Text::camelize($this->options->get('name')));
+        //$this->options->offsetSet('className', Text::camelize($this->options->get('name')));
+        $this->options->offsetSet('className', $this->options->get('className'));
         $this->options->offsetSet('fileName', Text::uncamelize($this->options->get('className')));
 
         $modelsNamespace = '';
@@ -154,7 +155,8 @@ class Scaffold extends Component
             $modelsNamespace = $this->options->get('modelsNamespace');
         }
 
-        $modelName = Text::camelize($name);
+        //$modelName = Text::camelize($name);
+        $modelName = $this->options->get('className');
 
         if ($modelsNamespace) {
             $modelClass = '\\' . trim($modelsNamespace, '\\') . '\\' . $modelName;
@@ -167,6 +169,7 @@ class Scaffold extends Component
         if (!file_exists($modelPath) || $this->options->get('force')) {
             $modelBuilder = new ModelBuilder([
                 'name'              => $name,
+                'controllerName'    => $this->options->get('controllerName'),
                 'schema'            => $this->options->get('schema'),
                 'className'         => $this->options->get('className'),
                 'fileName'          => $this->options->get('fileName'),
@@ -465,7 +468,7 @@ class Scaffold extends Component
      */
     private function _makeController()
     {
-        $controllerPath = $this->options->get('controllersDir') . $this->options->get('className') . 'Controller.php';
+        $controllerPath = $this->options->get('controllersDir') . $this->options->get('controllerName') . 'Controller.php';
 
         if (file_exists($controllerPath)) {
             if (!$this->options->contains('force')) {
@@ -495,9 +498,10 @@ class Scaffold extends Component
         $code = str_replace('$singular$', $this->options->get('singular'), $code);
 
         $code = str_replace('$pluralVar$', '$' . $this->options->get('plural'), $code);
-        $code = str_replace('$plural$', $this->options->get('plural'), $code);
+        $code = str_replace('$plural$', $this->options->get('viewPath'), $code);
 
         $code = str_replace('$className$', $this->options->get('className'), $code);
+        $code = str_replace('$controllerName$', $this->options->get('controllerName'), $code);
 
         $code = str_replace(
             '$assignInputFromRequestCreate$',
@@ -620,7 +624,7 @@ class Scaffold extends Component
      */
     private function makeView($type)
     {
-        $dirPath = $this->options->viewsDir . $this->options->fileName;
+        $dirPath = $this->options->viewsDir . $this->options->viewPath;
         if (is_dir($dirPath) == false) {
             mkdir($dirPath);
         }
@@ -639,7 +643,7 @@ class Scaffold extends Component
 
         $code = file_get_contents($templatePath);
 
-        $code = str_replace('$plural$', $this->options->plural, $code);
+        $code = str_replace('$plural$', $this->options->viewPath, $code);
         $code = str_replace('$captureFields$', self::_makeFields($type), $code);
 
         if ($this->isConsole()) {
@@ -694,7 +698,7 @@ class Scaffold extends Component
      */
     private function _makeViewSearch()
     {
-        $dirPath = $this->options->viewsDir . $this->options->fileName;
+        $dirPath = $this->options->viewsDir . $this->options->viewPath;
         if (is_dir($dirPath) == false) {
             mkdir($dirPath);
         }
@@ -738,7 +742,7 @@ class Scaffold extends Component
 
         $code = file_get_contents($templatePath);
 
-        $code = str_replace('$plural$', $this->options->plural, $code);
+        $code = str_replace('$plural$', $this->options->viewPath, $code);
         $code = str_replace('$headerColumns$', $headerCode, $code);
         $code = str_replace('$rowColumns$', $rowCode, $code);
         $code = str_replace('$singularVar$', '$' . $this->options->singular, $code);

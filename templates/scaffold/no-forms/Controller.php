@@ -4,7 +4,7 @@ use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 $useFullyQualifiedModelName$
 
-class $className$Controller extends ControllerBase
+class $controllerName$Controller extends ControllerBase
 {
     /**
      * Index action

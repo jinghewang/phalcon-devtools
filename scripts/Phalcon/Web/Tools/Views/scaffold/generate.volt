@@ -34,6 +34,27 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="className" class="col-sm-2 control-label">Class Name</label>
+                        <div class="col-sm-10">
+                            {{ input("className", 'eg. RoleModel') }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="controllerName" class="col-sm-2 control-label">Controller Name</label>
+                        <div class="col-sm-10">
+                            {{ input("controllerName", 'eg. New') }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="viewPath" class="col-sm-2 control-label">View Path</label>
+                        <div class="col-sm-10">
+                            {{ input("viewPath", 'eg. New') }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label for="templateEngine" class="col-sm-2 control-label">Template engine</label>
                         <div class="col-sm-10">
                             {{ select_static("templateEngine", templateEngines, 'useEmpty': false, "id": "templateEngine", "class": "form-control") }}

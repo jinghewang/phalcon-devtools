@@ -54,6 +54,9 @@ class ScaffoldController extends Base
 
                 $scaffoldBuilder = new Scaffold([
                     'name'              => $tableName,
+                    'className'         => $this->request->getPost('className', 'string'),
+                    'controllerName'    => $this->request->getPost('controllerName', 'string'),
+                    'viewPath'          => $this->request->getPost('viewPath', 'string'),
                     'schema'            => $this->request->getPost('schema', 'string'),
                     'force'             => $this->request->getPost('force', 'int'),
                     'genSettersGetters' => $this->request->getPost('genSettersGetters', 'int'),

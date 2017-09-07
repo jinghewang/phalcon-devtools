@@ -222,6 +222,7 @@ class ModelsController extends Base
                 /** @var  Model|AllModels $modelBuilder */
                 $modelBuilder = new $component([
                     'name'                  => $tableName,
+                    'className'             => $this->request->getPost('className', 'string'),
                     'force'                 => $this->request->getPost('force', 'int'),
                     'modelsDir'             => $this->request->getPost('modelsDir', 'string'),
                     'directory'             => $this->request->getPost('basePath', 'string'),
